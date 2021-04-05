@@ -1,0 +1,318 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.45 sec)
+
+mysql> CREATE DATABASE addressBook_service;
+Query OK, 1 row affected (0.66 sec)
+
+mysql> show databases;
++---------------------+
+| Database            |
++---------------------+
+| addressbook_service |
+| information_schema  |
+| mysql               |
+| payroll_service     |
+| performance_schema  |
+| sakila              |
+| sys                 |
+| world               |
++---------------------+
+8 rows in set (0.14 sec)
+
+mysql> USE addressBook_service
+Database changed
+
+mysql> CREATE TABLE addressbook
+    -> (
+    -> first_name       VARCHAR(150) NOT NULL,
+    -> last_name        VARCHAR(150) NOT NULL,
+    -> address          VARCHAR(150) NOT NULL,
+    -> state            VARCHAR(150) NOT NULL,
+    -> zip              INT NOT NULL,
+    -> phone_number     BIGINT NOT NULL,
+    -> email            VARCHAR(200) NOT NULL
+    -> );
+Query OK, 0 rows affected (2.76 sec)
+
+mysql> SELECT DATABASE();
++---------------------+
+| DATABASE()          |
++---------------------+
+| addressbook_service |
++---------------------+
+1 row in set (0.00 sec)
+
+mysql> DESCRIBE addressbook;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| first_name   | varchar(150) | NO   |     | NULL    |       |
+| last_name    | varchar(150) | NO   |     | NULL    |       |
+| address      | varchar(150) | NO   |     | NULL    |       |
+| state        | varchar(150) | NO   |     | NULL    |       |
+| zip          | int          | NO   |     | NULL    |       |
+| phone_number | bigint       | NO   |     | NULL    |       |
+| email        | varchar(200) | NO   |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+7 rows in set (0.38 sec)
+
+UC-3
+
+mysql> INSERT INTO addressbook(first_name, last_name, address, state, zip, phone_number, email)
+    -> VALUES
+    -> ('Rinkesh', 'Dubey', 'SK-2 Sector-93 Noida', 'UttarPradesh', 201304, 7753907973, 'rinkeshdubey2@gmail.com'),
+    -> ('Jitu', 'Kumar', 'Jhansi', 'UttarPradesh', 342367, 7753907963, 'jitukumar@gmail.com');
+Query OK, 2 rows affected (0.49 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM addressbook;
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+
+| first_name | last_name | address              | state        | zip    | phone_number | email                   |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+
+| Rinkesh    | Dubey     | SK-2 Sector-93 Noida | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+| Jitu       | Kumar     | Jhansi               | UttarPradesh | 342367 |   7753907963 | jitukumar@gmail.com     |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+
+2 rows in set (0.14 sec)
+
+UC-4
+
+mysql> UPDATE addressbook
+    -> SET
+    -> email = 'jikujk@gmail.com'
+    -> WHERE
+    -> first_name = 'jitu';
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM addressbook;
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+| first_name | last_name | address              | state        | zip    | phone_number | email                   | id |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+| Rinkesh    | Dubey     | SK-2 Sector-93 Noida | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |  1 |
+| Jitu       | Kumar     | Jhansi               | UttarPradesh | 342367 |   7753907963 | jikujk@gmail.com        |  2 |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+2 rows in set (0.06 sec)
+
+UC-5 
+
+mysql> DELETE FROM addressbook
+    -> WHERE
+    -> first_name = 'jitu';
+Query OK, 1 row affected (0.21 sec)
+
+mysql> SELECT * FROM addressbook;
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+| first_name | last_name | address              | state        | zip    | phone_number | email                   | id |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+| Rinkesh    | Dubey     | SK-2 Sector-93 Noida | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |  1 |
++------------+-----------+----------------------+--------------+--------+--------------+-------------------------+----+
+
+UC-6
+
+mysql> INSERT INTO addressbook(first_name, last_name, Address, city, state, zip, phone_number, Email_Address)
+    -> VALUES
+    -> ('Rinkesh', 'Dubey', 'Sector-93', 'Noida', 'UttarPradesh', 201304, 7753907973, 'rinkeshdubey2@gmail.com'),
+    -> ('Gyanesh', 'Dubey', 'Sector-13', 'Noida', 'UttarPradesh', 201305, 9853907973, 'gyaneshdubey@gmail.com'),
+    -> ('Jitu', 'Kumar', 'Manikpur', 'Jhansi', 'UttarPradesh', 401304, 9153907973, 'jitujk@gmail.com'),
+    -> ('Rahul', 'Yadav', 'Govindpuri', 'Delhi', 'New Delhi', 301304, 8453907973, 'rahulyadav@gmail.com');
+Query OK, 4 rows affected (0.43 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * addressbook;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'addressbook' at line 1
+mysql> SELECT * FROM addressbook;
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM addressbook
+    -> WHERE
+    -> city = 'Noida' OR state = 'UttarPradesh'
+    -> ;
++----+------------+-----------+-----------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | Address   | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+-----------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Sector-93 | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Sector-13 | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Manikpur  | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
++----+------------+-----------+-----------+--------+--------------+--------+--------------+-------------------------+
+3 rows in set (0.00 sec)
+
+UC-7
+
+mysql> SELECT COUNT(city)
+    -> FROM addressbook;
++-------------+
+| COUNT(city) |
++-------------+
+|           4 |
++-------------+
+1 row in set (0.28 sec)
+
+mysql> SELECT COUNT(city)
+    -> FROM addressbook
+    -> WHERE city = 'Noida';
++-------------+
+| COUNT(city) |
++-------------+
+|           2 |
++-------------+
+1 row in set (0.00 sec)
+
+UC-8
+
+mysql> SELECT * FROM addressbook
+    -> ORDER BY city DESC;
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM addressbook
+    -> ORDER BY city ASC;
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+|  4 | Rahul      | Yadav     | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
+|  3 | Jitu       | Kumar     | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  1 | Rinkesh    | Dubey     | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
++----+------------+-----------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM addressbook
+    -> WHERE city = 'Noida'
+    -> ORDER BY first_name DESC;
++----+------------+-----------+-----------+-------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | Address   | city  | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+-----------+-------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Sector-93 | Noida | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Sector-13 | Noida | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
++----+------------+-----------+-----------+-------+--------------+--------+--------------+-------------------------+
+2 rows in set (0.00 sec)
+
+UC-9
+
+mysql> ALTER TABLE addressbook ADD type VARCHAR(50) NOT NULL AFTER last_name;
+Query OK, 0 rows affected (3.38 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM addressbook;
++----+------------+-----------+------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | type | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------+------------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     |      | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     |      | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     |      | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     |      | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
++----+------------+-----------+------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.00 sec)
+
+mysql> UPDATE addressbook SET type = 'Family' WHERE id=1;
+Query OK, 1 row affected (0.19 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE addressbook SET type = 'Family' WHERE id=2;
+Query OK, 1 row affected (0.28 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE addressbook SET type = 'Profession' WHERE id=3;
+Query OK, 1 row affected (0.25 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE addressbook SET type = 'Friend' WHERE id=4;
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM addressbook;
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | type       | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Family     | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Family     | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Profession | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     | Friend     | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.11 sec)
+
+UC-10
+
+mysql> SELECT * FROM addressbook;
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | type       | Address    | city   | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Family     | Sector-93  | Noida  | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Family     | Sector-13  | Noida  | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Profession | Manikpur   | Jhansi | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     | Friend     | Govindpuri | Delhi  | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
++----+------------+-----------+------------+------------+--------+--------------+--------+--------------+-------------------------+
+4 rows in set (0.11 sec)
+
+mysql> SELECT COUNT(first_name) FROM addressbook WHERE type = 'Family';
++-------------------+
+| COUNT(first_name) |
++-------------------+
+|                 2 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(first_name) FROM addressbook WHERE type = 'Profession';
++-------------------+
+| COUNT(first_name) |
++-------------------+
+|                 1 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(first_name) FROM addressbook WHERE type = 'Friend';
++-------------------+
+| COUNT(first_name) |
++-------------------+
+|                 1 |
++-------------------+
+1 row in set (0.00 sec)
+
+UC-11
+
+mysql> INSERT INTO addressbook(first_name, last_name, type, Address, city, state, zip, phone_number, Email_Address)
+    -> VALUES
+    -> ('Taimoor', 'Alam', 'Friend', 'GreaterNoida', 'Lucknow', 'UttarPradesh', 245672, 9845674523, 'taimooralam@gmail.com'),
+    -> ('Rohit', 'Dubey', 'Family', 'Sector-93', 'Noida', 'UttarPradesh', 201304, 9845454523, 'rohitdubey@gmail.com');
+Query OK, 2 rows affected (0.12 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM addressbook;
++----+------------+-----------+------------+--------------+---------+--------------+--------+--------------+-------------------------+
+| id | first_name | last_name | type       | Address      | city    | state        | zip    | phone_number | Email_Address           |
++----+------------+-----------+------------+--------------+---------+--------------+--------+--------------+-------------------------+
+|  1 | Rinkesh    | Dubey     | Family     | Sector-93    | Noida   | UttarPradesh | 201304 |   7753907973 | rinkeshdubey2@gmail.com |
+|  2 | Gyanesh    | Dubey     | Family     | Sector-13    | Noida   | UttarPradesh | 201305 |   9853907973 | gyaneshdubey@gmail.com  |
+|  3 | Jitu       | Kumar     | Profession | Manikpur     | Jhansi  | UttarPradesh | 401304 |   9153907973 | jitujk@gmail.com        |
+|  4 | Rahul      | Yadav     | Friend     | Govindpuri   | Delhi   | New Delhi    | 301304 |   8453907973 | rahulyadav@gmail.com    |
+|  5 | Taimoor    | Alam      | Friend     | GreaterNoida | Lucknow | UttarPradesh | 245672 |   9845674523 | taimooralam@gmail.com   |
+|  6 | Rohit      | Dubey     | Family     | Sector-93    | Noida   | UttarPradesh | 201304 |   9845454523 | rohitdubey@gmail.com    |
++----+------------+-----------+------------+--------------+---------+--------------+--------+--------------+-------------------------+
+6 rows in set (0.12 sec)
